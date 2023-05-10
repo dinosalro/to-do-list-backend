@@ -132,3 +132,33 @@ app.post("/users", async (req: Request, res: Response) => {
         }
     }
 })
+
+app.delete("/users/:id", async (req: Request, res: Response) => {
+
+    try {
+        const idToDelete = req.params.id
+
+        const [userIdAlreadyExists]: TUserDB[] | undefined[] = await db("users").where({id: idToDelete})
+        
+        if(!userIdAlreadyExists){
+            res.status(404)
+            throw new Error("'id' não encontrado")
+        }
+
+        await db("users").del().where({id: idToDelete})
+        res.status(200).send({message: "User deletado com sucesso"})
+        
+    } catch (error) {
+        console.log(error)
+
+        if (req.statusCode === 200) {
+            res.status(500)
+        }
+
+        if (error instanceof Error) {
+            res.send(error.message)
+        } else {
+            res.send("Erro inesperado")
+        }
+    }
+})
