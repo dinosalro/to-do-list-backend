@@ -68,3 +68,9 @@ SELECT * FROM users;
 SELECT * FROM tasks;
 
 SELECT * FROM users_tasks;
+
+DROP TABLE users;
+
+DROP TABLE tasks;
+
+DROP TABLE users_tasks;
