@@ -362,4 +362,38 @@ app.put("/tasks/:id", async (req: Request, res: Response) => {
     }
 })
 
+app.delete("/tasks/:id", async (req: Request, res: Response) => {
+
+    try {
+        const idToDelete = req.params.id
+
+        const [taskIdAlreadyExists]: TTaskDB[] | undefined[] = await db("tasks").where({id: idToDelete})
+        
+        if(!taskIdAlreadyExists){
+            res.status(404)
+            throw new Error("'id' não encontrado")
+        }
+
+        await db("users_task").del().where({task_id: idToDelete})
+        await db("tasks").del().where({id: idToDelete})
+    
+        
+        res.status(200).send({message: "Task deletada com sucesso"})
+        
+    } catch (error) {
+        console.log(error)
+
+        if (req.statusCode === 200) {
+            res.status(500)
+        }
+
+        if (error instanceof Error) {
+            res.send(error.message)
+        } else {
+            res.send("Erro inesperado")
+        }
+    }
+})
+
+
 
