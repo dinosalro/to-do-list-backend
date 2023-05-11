@@ -22,7 +22,7 @@ CREATE TABLE
         user_id TEXT NOT NULL,
         task_id TEXT NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users (id),
-        FOREIGN KEY (task_id) REFERENCES tasks (id)
+        FOREIGN KEY (task_id) REFERENCES tasks (id) ON UPDATE CASCADE
     );
 
 INSERT INTO
@@ -68,3 +68,9 @@ SELECT * FROM users;
 SELECT * FROM tasks;
 
 SELECT * FROM users_tasks;
+
+DROP TABLE users;
+
+DROP TABLE tasks;
+
+DROP TABLE users_tasks;
