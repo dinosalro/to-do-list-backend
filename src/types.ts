@@ -13,3 +13,9 @@ export type TTaskDB = {
     status: number,
 }
 
+
+export type TUserTaskDB = {
+    user_id: string,
+    task_id: string,
+}
+
